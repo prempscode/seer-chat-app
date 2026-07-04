@@ -16,6 +16,8 @@ import { useAuth } from "./AuthContext.jsx";
 const ChatContext = createContext(null);
 
 export function ChatProvider({ children }) {
+
+  
   const { authUser } = useAuth();
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);

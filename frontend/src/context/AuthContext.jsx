@@ -11,6 +11,8 @@ import api from "../lib/axios.js";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+
+  
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -54,9 +56,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ authUser, setAuthUser, loading, login, signup, logout, updateProfile }}
-    >
+    <AuthContext.Provider value={{ authUser, setAuthUser, loading, login, signup, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
@@ -69,3 +69,4 @@ export const useAuth = () => {
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
   return ctx;
 };
+
