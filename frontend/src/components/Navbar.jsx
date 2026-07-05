@@ -20,12 +20,13 @@ export default function Navbar() {
       </Link>
 
       <div className="right">
+        <Link to="/welcome" className="nav-btn">
+          Home
+        </Link>
         <Link to="/chat" className="nav-btn">
           Chats
         </Link>
-        <Link to="/welcome" className="nav-btn">
-          About
-        </Link>
+
         <Link to="/settings" className="nav-btn">
           Settings
         </Link>
