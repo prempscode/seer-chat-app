@@ -15,16 +15,31 @@ export default function Navbar() {
 
   return (
     <header className="navbar">
-      <Link to="/" className="brand">💬 Chatty</Link>
+      <Link to="/chat" className="brand">
+        👁️ Seer
+      </Link>
 
       <div className="right">
-        <Link to="/" className="nav-btn">Chats</Link>
-        <Link to="/settings" className="nav-btn">Settings</Link>
+        <Link to="/chat" className="nav-btn">
+          Chats
+        </Link>
+        <Link to="/welcome" className="nav-btn">
+          About
+        </Link>
+        <Link to="/settings" className="nav-btn">
+          Settings
+        </Link>
 
-        <div className="avatar" onClick={() => setMenuOpen((v) => !v)} title={authUser?.fullName} >
-        
-          {authUser?.profilePic ? ( <img src={authUser.profilePic} alt={authUser.fullName} /> ) : ( authUser?.fullName?.[0]?.toUpperCase() || "?" )}
-        
+        <div
+          className="avatar"
+          onClick={() => setMenuOpen((v) => !v)}
+          title={authUser?.fullName}
+        >
+          {authUser?.profilePic ? (
+            <img src={authUser.profilePic} alt={authUser.fullName} />
+          ) : (
+            authUser?.fullName?.[0]?.toUpperCase() || "?"
+          )}
         </div>
 
         {menuOpen && (

@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 
 import Navbar from "./components/Navbar.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -13,7 +14,6 @@ import { useAuth } from "./context/AuthContext.jsx";
 export default function App() {
   const { authUser, loading } = useAuth();
 
- 
   if (loading) {
     return (
       <div className="center-page">
@@ -27,19 +27,43 @@ export default function App() {
       {authUser && <Navbar />}
 
       <Routes>
-        {/* Public routes */}
-        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" replace />}/>
-        
-        <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/" replace />}/>
+        <Route
+          path="/"
+          element={
+            !authUser ? <LandingPage /> : <Navigate to="/chat" replace />
+          }
+        />
 
-        {/* Protected routes */}
-        <Route path="/" element={ <ProtectedRoute> <ChatPage /> </ProtectedRoute> }/>
-        
-        <Route path="/settings" element={ <ProtectedRoute> <SettingsPage /> </ProtectedRoute> }/>
+        <Route path="/welcome" element={<LandingPage />} />
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} /> </Routes>
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to="/chat" replace />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignupPage /> : <Navigate to="/chat" replace />}
+        />
 
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }
