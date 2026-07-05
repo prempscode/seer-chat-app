@@ -38,8 +38,6 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       };
 
-      // Tell every connected client that a new user just signed up, so their
-      // sidebars refresh in real-time without anyone having to reload.
       io.emit("userCreated", publicUser);
 
       res.status(201).json(publicUser);

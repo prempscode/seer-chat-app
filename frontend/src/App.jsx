@@ -13,8 +13,7 @@ import { useAuth } from "./context/AuthContext.jsx";
 export default function App() {
   const { authUser, loading } = useAuth();
 
-  // While we're checking the JWT cookie, show a spinner instead of flashing
-  // the login screen.
+ 
   if (loading) {
     return (
       <div className="center-page">

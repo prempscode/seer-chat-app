@@ -10,9 +10,7 @@ export default function ChatPage() {
   const { authUser } = useAuth();
   const { socket, users, setUsers, messages, setMessages, onlineUsers } = useChat();
 
-  // selectedUser lives in the parent so both Sidebar and ChatContainer can see it.
-  // This is the prop drilling pattern — we deliberately pass it down as props
-  // instead of stuffing it into context.
+  
   const [selectedUser, setSelectedUser] = useState(null);
 
   // Fetch sidebar users on mount.

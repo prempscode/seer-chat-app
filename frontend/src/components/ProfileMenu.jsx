@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-// Receives `authUser`, `onClose`, and `onLogout` as plain props
+
 export default function ProfileMenu({ authUser, onClose, onLogout }) {
   const navigate = useNavigate();
 

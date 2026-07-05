@@ -14,7 +14,7 @@ export default function SettingsPage() {
   const { authUser, updateProfile } = useAuth();
 
   const [fullName, setFullName] = useState(authUser?.fullName || "");
-  const [profilePicBase64, setProfilePicBase64] = useState(null); // string | null
+  const [profilePicBase64, setProfilePicBase64] = useState(null); 
   const [previewUrl, setPreviewUrl] = useState(authUser?.profilePic || "");
   const [saving, setSaving] = useState(false);
 
@@ -29,7 +29,7 @@ export default function SettingsPage() {
     }
     const base64 = await fileToBase64(file);
     setProfilePicBase64(base64);
-    setPreviewUrl(base64); // immediately show preview
+    setPreviewUrl(base64); 
     e.target.value = "";
   };
 
