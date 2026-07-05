@@ -29,36 +29,18 @@ export default function App() {
 
       <Routes>
         {/* Public routes */}
-        <Route
-          path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/signup"
-          element={!authUser ? <SignupPage /> : <Navigate to="/" replace />}
-        />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" replace />}/>
+        
+        <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/" replace />}/>
 
         {/* Protected routes */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <ChatPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <SettingsPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={ <ProtectedRoute> <ChatPage /> </ProtectedRoute> }/>
+        
+        <Route path="/settings" element={ <ProtectedRoute> <SettingsPage /> </ProtectedRoute> }/>
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} /> </Routes>
+
     </div>
   );
 }

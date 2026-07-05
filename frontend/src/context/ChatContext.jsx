@@ -38,7 +38,8 @@ export function ChatProvider({ children }) {
       return;
     }
 
-    // Pass userId in the handshake query, exactly like the backend expects.
+    // Pass userId in the handshake query, exactly like the backend expects. 
+    // (to store in userSocketMap)
     const newSocket = io({
       query: { userId: authUser._id },
     });
@@ -48,16 +49,14 @@ export function ChatProvider({ children }) {
 
     // Listen for incoming messages globally — whoever is selected in the UI
     // will get it appended; if nobody is selected we just stash it.
-    newSocket.on("newMessage", (msg) => {
-      setMessages((prev) => {
-        const key =
-          msg.senderId === authUser._id ? msg.receiverId : msg.senderId;
-        return {
-          ...prev,
-          [key]: [...(prev[key] || []), msg],
-        };
+      newSocket.on("newMessage", (msg) => {
+        setMessages((prev) => {
+          const key = msg.senderId === authUser._id ? msg.receiverId : msg.senderId;
+          return {
+            ...prev, [key]: [...(prev[key] || []), msg],
+          };
+        });
       });
-    });
     // When ANY user updates their profile pic/name, the backend broadcasts
     // "profileUpdated" with the new user object. Patch the sidebar list so
     // everyone sees the new pic/name in real-time without a reload.
@@ -66,6 +65,8 @@ export function ChatProvider({ children }) {
         prev.map((u) => (u._id === updatedUser._id ? updatedUser : u)),
       );
     });
+
+
     // new for profile pic update on sidebar
     newSocket.on("userCreated", (newUser) => {
       if (authUser && newUser._id === authUser._id) return;
@@ -76,6 +77,8 @@ export function ChatProvider({ children }) {
         return [...prev, newUser];
       });
     });
+
+
     // 
     return () => {
       newSocket.disconnect();
@@ -84,16 +87,7 @@ export function ChatProvider({ children }) {
   }, [authUser]);
 
   return (
-    <ChatContext.Provider
-      value={{
-        socket,
-        onlineUsers,
-        users,
-        setUsers,
-        messages,
-        setMessages,
-      }}
-    >
+    <ChatContext.Provider value={{socket,onlineUsers,users,setUsers,messages,setMessages,}}>
       {children}
     </ChatContext.Provider>
   );

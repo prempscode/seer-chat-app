@@ -12,7 +12,6 @@ export default function ChatContainer({
   const { onlineUsers } = useChat();
   const scrollRef = useRef(null);
 
-  // Auto-scroll to the latest message when the list changes.
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;

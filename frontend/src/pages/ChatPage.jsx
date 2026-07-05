@@ -11,7 +11,7 @@ export default function ChatPage() {
   const { socket, users, setUsers, messages, setMessages, onlineUsers } = useChat();
 
   // selectedUser lives in the parent so both Sidebar and ChatContainer can see it.
-  // This is the "prop drilling" pattern — we deliberately pass it down as props
+  // This is the prop drilling pattern — we deliberately pass it down as props
   // instead of stuffing it into context.
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -27,7 +27,7 @@ export default function ChatPage() {
     };
     fetchUsers();
   }, [setUsers]);
-
+  
   // When the selected user changes, load that conversation.
   useEffect(() => {
     if (!selectedUser) return;

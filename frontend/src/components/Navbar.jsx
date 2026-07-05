@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import ProfileMenu from "./ProfileMenu.jsx";
 
 export default function Navbar() {
-  const { authUser, logout } = useAuth(); // <-- drilling would do this too, but auth is global state, so context is fine
+  const { authUser, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -13,7 +13,6 @@ export default function Navbar() {
     navigate("/login", { replace: true });
   };
 
-  // We "prop drill" the authUser + handleLogout down into ProfileMenu
   return (
     <header className="navbar">
       <Link to="/" className="brand">💬 Chatty</Link>
@@ -22,16 +21,10 @@ export default function Navbar() {
         <Link to="/" className="nav-btn">Chats</Link>
         <Link to="/settings" className="nav-btn">Settings</Link>
 
-        <div
-          className="avatar"
-          onClick={() => setMenuOpen((v) => !v)}
-          title={authUser?.fullName}
-        >
-          {authUser?.profilePic ? (
-            <img src={authUser.profilePic} alt={authUser.fullName} />
-          ) : (
-            authUser?.fullName?.[0]?.toUpperCase() || "?"
-          )}
+        <div className="avatar" onClick={() => setMenuOpen((v) => !v)} title={authUser?.fullName} >
+        
+          {authUser?.profilePic ? ( <img src={authUser.profilePic} alt={authUser.fullName} /> ) : ( authUser?.fullName?.[0]?.toUpperCase() || "?" )}
+        
         </div>
 
         {menuOpen && (

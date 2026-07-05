@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 // Receives `authUser`, `onClose`, and `onLogout` as plain props
-// (that's the prop-drilling pattern you asked for).
 export default function ProfileMenu({ authUser, onClose, onLogout }) {
   const navigate = useNavigate();
 
