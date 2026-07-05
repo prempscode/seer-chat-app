@@ -3,8 +3,7 @@ import toast from "react-hot-toast";
 import api from "../lib/axios.js";
 import { useChat } from "../context/ChatContext.jsx";
 
-// Reads an image File and returns a base64 data-URL string (what the backend
-// expects so it can upload straight to Cloudinary).
+
 const fileToBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -20,7 +19,7 @@ export default function MessageInput({
 }) {
   const { socket } = useChat();
   const [text, setText] = useState("");
-  const [image, setImage] = useState(null); // { file, preview }
+  const [image, setImage] = useState(null); 
   const [sending, setSending] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -33,7 +32,7 @@ export default function MessageInput({
     }
     const preview = URL.createObjectURL(file);
     setImage({ file, preview });
-    // allow picking the same file again
+   
     e.target.value = "";
   };
 
@@ -54,15 +53,13 @@ export default function MessageInput({
       const res = await api.post(`/messages/send/${selectedUser._id}`, payload);
       const newMsg = res.data;
 
-      // Append to local state (also handled by socket but we do it here
-      // immediately so the sender sees their own message instantly).
+      
       setMessages((prev) => ({
         ...prev,
         [selectedUser._id]: [...(prev[selectedUser._id] || []), newMsg],
-      }));
+      }));  
 
-      // Tell other tabs / the receiver (the server already emits it, but
-      // emitting client-side for our own session is harmless).
+   
       socket?.emit("newMessage", newMsg);
 
       setText("");

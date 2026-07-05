@@ -24,10 +24,10 @@ export function ChatProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState({});
 
-  // Connect / disconnect the socket whenever the logged-in user changes.
+ 
   useEffect(() => {
     if (!authUser) {
-      // Logged out — tear everything down.
+     
       if (socket) {
         socket.disconnect();
         setSocket(null);
@@ -38,8 +38,7 @@ export function ChatProvider({ children }) {
       return;
     }
 
-    // Pass userId in the handshake query, exactly like the backend expects. 
-    // (to store in userSocketMap)
+    
     const newSocket = io({
       query: { userId: authUser._id },
     });
@@ -47,8 +46,7 @@ export function ChatProvider({ children }) {
 
     newSocket.on("getOnlineUsers", (ids) => setOnlineUsers(ids));
 
-    // Listen for incoming messages globally — whoever is selected in the UI
-    // will get it appended; if nobody is selected we just stash it.
+   
       newSocket.on("newMessage", (msg) => {
         setMessages((prev) => {
           const key = msg.senderId === authUser._id ? msg.receiverId : msg.senderId;
@@ -57,9 +55,7 @@ export function ChatProvider({ children }) {
           };
         });
       });
-    // When ANY user updates their profile pic/name, the backend broadcasts
-    // "profileUpdated" with the new user object. Patch the sidebar list so
-    // everyone sees the new pic/name in real-time without a reload.
+    
     newSocket.on("profileUpdated", (updatedUser) => {
       setUsers((prev) =>
         prev.map((u) => (u._id === updatedUser._id ? updatedUser : u)),
@@ -67,23 +63,23 @@ export function ChatProvider({ children }) {
     });
 
 
-    // new for profile pic update on sidebar
+  
     newSocket.on("userCreated", (newUser) => {
       if (authUser && newUser._id === authUser._id) return;
 
       setUsers((prev) => {
-        if (prev.some((u) => u._id === newUser._id)) return prev; // dedupe
+        if (prev.some((u) => u._id === newUser._id)) return prev;
 
         return [...prev, newUser];
       });
     });
 
 
-    // 
+
     return () => {
       newSocket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [authUser]);
 
   return (

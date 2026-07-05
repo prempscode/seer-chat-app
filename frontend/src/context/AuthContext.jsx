@@ -1,13 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../lib/axios.js";
 
-/*
- * AuthContext
- * ----------
- * Holds the logged-in user and exposes login / signup / logout / updateProfile
- * helpers. On mount we call /api/auth/check to see if the JWT cookie is still
- * valid (so refreshing the page keeps you logged in).
- */
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -16,7 +10,7 @@ export function AuthProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Run once on app start: are we already logged in?
+  
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -48,7 +42,7 @@ export function AuthProvider({ children }) {
     setAuthUser(null);
   };
 
-  // Used by the Settings page after updating the profile picture/name.
+ 
   const updateProfile = async (payload) => {
     const res = await api.put("/auth/update-profile", payload);
     setAuthUser(res.data);
@@ -62,8 +56,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Tiny custom hook so components can do `const { authUser } = useAuth()`
-// instead of `useContext(AuthContext)` everywhere.
+
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");

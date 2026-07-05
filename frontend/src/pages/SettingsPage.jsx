@@ -43,7 +43,9 @@ export default function SettingsPage() {
       if (profilePicBase64) payload.profilePic = profilePicBase64;
 
       await updateProfile(payload);
-      setProfilePicBase64(null); // reset so re-saving doesn't re-upload
+
+      setProfilePicBase64(null);
+      
       toast.success("Profile updated!");
     } catch (err) {
       toast.error(err.response?.data?.message || "Update failed");
