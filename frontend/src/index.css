@@ -885,3 +885,7 @@ textarea:focus {
     padding: 70px 18px;
   }
 }
+/* ---------- Authed landing (no inner nav, just padding) ---------- */
+.landing-authed {
+  padding-top: 40px;
+}
