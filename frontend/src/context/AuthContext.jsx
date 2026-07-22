@@ -1,65 +1,68 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import api from "../lib/axios.js";
+import { createContext, useContext, useEffect, useState } from 'react'
+import api from '../lib/axios.js'
 
+const AuthContext = createContext(null)
 
-const AuthContext = createContext(null);
+export function AuthProvider ({ children }) {
+  const [authUser, setAuthUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-export function AuthProvider({ children }) {
-
-  
-  const [authUser, setAuthUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await api.get("/auth/check");
-        setAuthUser(res.data);
+        const res = await api.get('/auth/check')
+        setAuthUser(res.data)
       } catch {
-        setAuthUser(null);
+        setAuthUser(null)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    checkAuth();
-  }, []);
+    }
+    checkAuth()
+  }, [])
 
   const signup = async ({ fullName, email, password }) => {
-    const res = await api.post("/auth/signup", { fullName, email, password });
-    setAuthUser(res.data);
-    return res.data;
-  };
+    const res = await api.post('/auth/signup', { fullName, email, password })
+    setAuthUser(res.data)
+    return res.data
+  }
 
   const login = async ({ email, password }) => {
-    const res = await api.post("/auth/login", { email, password });
-    setAuthUser(res.data);
-    return res.data;
-  };
+    const res = await api.post('/auth/login', { email, password })
+    setAuthUser(res.data)
+    return res.data
+  }
 
   const logout = async () => {
-    await api.post("/auth/logout");
-    setAuthUser(null);
-  };
+    await api.post('/auth/logout')
+    setAuthUser(null)
+  }
 
- 
-  const updateProfile = async (payload) => {
-    const res = await api.put("/auth/update-profile", payload);
-    setAuthUser(res.data);
-    return res.data;
-  };
+  const updateProfile = async payload => {
+    const res = await api.put('/auth/update-profile', payload)
+    setAuthUser(res.data)
+    return res.data
+  }
 
   return (
-    <AuthContext.Provider value={{ authUser, setAuthUser, loading, login, signup, logout, updateProfile }}>
+    <AuthContext.Provider
+      value={{
+        authUser,
+        setAuthUser,
+        loading,
+        login,
+        signup,
+        logout,
+        updateProfile
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
-
 export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
-  return ctx;
-};
-
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>')
+  return ctx
+}
