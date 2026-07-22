@@ -1,45 +1,45 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-import ProfileMenu from "./ProfileMenu.jsx";
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+import ProfileMenu from './ProfileMenu.jsx'
 
-export default function Navbar() {
-  const { authUser, logout } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
+export default function Navbar () {
+  const { authUser, logout } = useAuth()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/login", { replace: true });
-  };
+    await logout()
+    navigate('/login', { replace: true })
+  }
 
   return (
-    <header className="navbar">
-      <Link to="/chat" className="brand">
+    <header className='navbar'>
+      <Link to='/chat' className='brand'>
         👁️ Seer
       </Link>
 
-      <div className="right">
-        <Link to="/welcome" className="nav-btn">
+      <div className='right'>
+        <Link to='/welcome' className='nav-btn'>
           Home
         </Link>
-        <Link to="/chat" className="nav-btn">
+        <Link to='/chat' className='nav-btn'>
           Chats
         </Link>
 
-        <Link to="/settings" className="nav-btn">
+        <Link to='/settings' className='nav-btn'>
           Settings
         </Link>
 
         <div
-          className="avatar"
-          onClick={() => setMenuOpen((v) => !v)}
+          className='avatar'
+          onClick={() => setMenuOpen(v => !v)}
           title={authUser?.fullName}
         >
           {authUser?.profilePic ? (
             <img src={authUser.profilePic} alt={authUser.fullName} />
           ) : (
-            authUser?.fullName?.[0]?.toUpperCase() || "?"
+            authUser?.fullName?.[0]?.toUpperCase() || '?'
           )}
         </div>
 
@@ -52,5 +52,5 @@ export default function Navbar() {
         )}
       </div>
     </header>
-  );
+  )
 }
