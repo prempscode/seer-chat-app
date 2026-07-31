@@ -1,60 +1,60 @@
-import { useEffect, useState } from "react";
-import api from "../lib/axios.js";
-import { useAuth } from "../context/AuthContext.jsx";
-import { useChat } from "../context/ChatContext.jsx";
+import { useEffect, useState } from 'react'
+import api from '../lib/axios.js'
+import { useAuth } from '../context/AuthContext.jsx'
+import { useChat } from '../context/ChatContext.jsx'
 
-import Sidebar from "../components/Sidebar.jsx";
-import ChatContainer from "../components/ChatContainer.jsx";
+import Sidebar from '../components/Sidebar.jsx'
+import ChatContainer from '../components/ChatContainer.jsx'
 
-export default function ChatPage() {
-  const { authUser } = useAuth();
-  const { socket, users, setUsers, messages, setMessages, onlineUsers } = useChat();
+export default function ChatPage () {
+  const { authUser } = useAuth()
+  const { socket, users, setUsers, messages, setMessages, onlineUsers } =
+    useChat()
 
-  
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null)
 
   // Fetch sidebar users on mount.
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await api.get("/messages/users");
-        setUsers(res.data);
+        const res = await api.get('/messages/users')
+        setUsers(res.data)
       } catch (err) {
-        console.error("Failed to load users", err);
+        console.error('Failed to load users', err)
       }
-    };
-    fetchUsers();
-  }, [setUsers]);
-  
+    }
+    fetchUsers()
+  }, [setUsers])
+
   // When the selected user changes, load that conversation.
   useEffect(() => {
-    if (!selectedUser) return;
+    if (!selectedUser) return
     const fetchMessages = async () => {
       try {
-        const res = await api.get(`/messages/${selectedUser._id}`);
-        setMessages((prev) => ({ ...prev, [selectedUser._id]: res.data }));
+        const res = await api.get(`/messages/${selectedUser._id}`)
+        setMessages(prev => ({ ...prev, [selectedUser._id]: res.data }))
       } catch (err) {
-        console.error("Failed to load messages", err);
+        console.error('Failed to load messages', err)
       }
-    };
-    fetchMessages();
-  }, [selectedUser, setMessages]);
+    }
+    fetchMessages()
+  }, [selectedUser, setMessages])
 
   // Listen for profile updates from other users so the chat header avatar
   // refreshes in real-time (ChatContext handles the sidebar list separately).
   useEffect(() => {
-    if (!socket) return;
-    const handler = (updatedUser) => {
-      setSelectedUser((prev) =>
-        prev?._id === updatedUser._id ? updatedUser : prev,
-      );
-    };
-    socket.on("profileUpdated", handler);
-    return () => socket.off("profileUpdated", handler);
-  }, [socket]);
+    if (!socket) return
+    const handler = updatedUser => {
+      setSelectedUser(prev =>
+        prev?._id === updatedUser._id ? updatedUser : prev
+      )
+    }
+    socket.on('profileUpdated', handler)
+    return () => socket.off('profileUpdated', handler)
+  }, [socket])
 
   return (
-    <div className="chat-shell">
+    <div className='chat-shell'>
       <Sidebar
         users={users}
         onlineUsers={onlineUsers}
@@ -68,5 +68,5 @@ export default function ChatPage() {
         setMessages={setMessages}
       />
     </div>
-  );
+  )
 }
