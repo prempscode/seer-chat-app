@@ -11,10 +11,6 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* 
-      Order matters: AuthProvider must wrap ChatProvider because the chat
-      context needs the logged-in user from auth context to open the socket.
-    */}
     <BrowserRouter>
       <AuthProvider>
         <ChatProvider>
