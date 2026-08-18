@@ -11,6 +11,10 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
 
+import dns from "dns";
+
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -22,7 +26,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-  })
+  }),
 );
 
 app.use("/api/auth", authRoutes);
